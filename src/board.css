@@ -1,0 +1,60 @@
+div#the-board {
+    height: 600px;
+    width: 600px;
+    cursor: pointer;
+}
+
+/* Override move highlighting */
+div#the-board .highlight1-32417,
+div#the-board .highlight2-9c5d2 {
+    box-shadow: none;
+}
+
+/* Set up our own move highlighting */
+div#the-board .highlight1-32417::before,
+div#the-board .highlight2-9c5d2::before,
+div.last-move-from::before,
+div.last-move-to::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,0,0.25);
+}
+
+/* Set the z-index on pieces, so I can control overlays */
+img.piece-417db {
+    position: relative;
+    z-index: 100;
+}
+
+div#the-board .possible-move::before,
+div#the-board .check::before,
+div#the-board .possible-capture::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 30%;
+}
+
+div#the-board .possible-move::before {
+    background-image: url(../assets/dot.svg);
+    z-index: 150;
+}
+
+div#the-board .possible-capture::before {
+    background-image: url(../assets/capture.svg);
+    background-size: 95%;
+    z-index: 50;
+}
+
+div#the-board .check::before {
+    background-image: url(../assets/check.svg);
+    background-size: 95%;
+    z-index: 50;
+}

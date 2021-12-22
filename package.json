@@ -30,7 +30,7 @@
   "homepage": "https://github.com/ianfinch/chess-events#readme",
   "devDependencies": {
     "@chrisoakman/chessboardjs": "^1.0.0",
-    "@guzo/modal": "^0.0.1",
+    "@guzo/modal": "^0.0.2",
     "@guzo/pubsubhub": "^0.0.3",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.5.1",
