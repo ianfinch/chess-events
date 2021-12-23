@@ -26,8 +26,15 @@ const pieceMoved = board => {
         // If there's no promotion, just publish the move
         } else {
 
-            board.hub.publish("validate-move", { from: source, to: target });
+            // Use a timeout to allow this handler to complete before
+            // publishing the message, otherwise this piece drop may display
+            // after any consequences of move validation
+            //
+            // Need to work out how to do this properly
+            setTimeout(() => board.hub.publish("validate-move", { from: source, to: target }), 50);
         }
+
+        return true;
     };
 };
 
@@ -38,7 +45,7 @@ const initChessBoard = () => {
 
     // Initialise the settings for our board
     const board = {
-        elem: null,
+        widget: null,
         hub: null,
         hooks: {
             onDrop: null
@@ -49,7 +56,7 @@ const initChessBoard = () => {
     };
 
     // Create the board GUI
-    board.elem = Chessboard("the-board", {
+    board.widget = Chessboard("the-board", {
         draggable: true,
         dropOffBoard: "snapback",
         onDrop: pieceMoved(board),
@@ -70,7 +77,9 @@ const setupHandlers = (board, hub) => {
 
     board.hub = hub.register("board");
 
-    // Handle different actions to take from a modal dialogue
+    /**
+     * Handle different actions to take from a modal dialogue
+     */
     board.hub.subscribe("modal-closed", response => {
 
         // Handle selection of a pawn promotion
@@ -83,6 +92,14 @@ const setupHandlers = (board, hub) => {
         }
     });
 
+    /**
+     * Handle the result of move
+     */
+    board.hub.subscribe("move-result", response => {
+
+        // Make sure the display matches the current state
+        board.widget.position(response.fen, false);
+    });
 };
 
 /**

@@ -1,4 +1,5 @@
 import board from "./chessboard.js";
+import engine from "./engine.js";
 import hub from "@guzo/pubsubhub";
 import modal from "@guzo/modal";
 
@@ -8,8 +9,7 @@ import modal from "@guzo/modal";
 window.addEventListener("load", () => {
 
     hub.log(true);
-    board.init(hub);
-    modal.init(hub);
+    [ board, engine, modal ].forEach(service => service.init(hub));
 
     const index = hub.register("index");
 });
