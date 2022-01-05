@@ -48,6 +48,39 @@ const gameIsOver = () => {
 };
 
 /**
+ * Make a list of captured pieces
+ */
+const getCapturedPieces = fen => {
+
+    const countPieces = (result, item) => {
+        if (!result[item]) {
+            result[item] = 0;
+        }
+        result[item] = result[item] + 1;
+        return result;
+    };
+
+    const countMissingPieces = pieces => {
+        const fullSet = { B: 2, K: 1, N: 2, P: 8, Q: 1, R: 2, b: 2, k: 1, n: 2, p: 8, q: 1, r: 2 };
+
+        return Object.keys(fullSet).reduce((result, key) => {
+            const taken = fullSet[key] - (pieces[key] || 0);
+            if (taken) {
+                result.push({ piece: key, count: taken });
+            }
+            return result;
+        }, []);
+    };
+
+    const tally = fen.split(" ")[0]
+                     .replace(/[0-9/]/g, "")
+                     .split("")
+                     .reduce(countPieces, {});
+
+    return countMissingPieces(tally);
+};
+
+/**
  * Make a move
  *
  * Return null if move is not valid
@@ -55,13 +88,15 @@ const gameIsOver = () => {
 const move = (details, bus) => {
 
     const result = engine.move(details);
+    const fen = engine.fen();
     const payload = {
         from: details.from,
         to: details.to,
+        taken: getCapturedPieces(fen),
         check: engine.in_check(),
         gameOver: gameIsOver(),
         next: engine.turn(),
-        fen: engine.fen(),
+        fen,
         pgn: engine.pgn()
     };
 
@@ -77,8 +112,23 @@ const move = (details, bus) => {
 /**
  * Reset the board to the starting position
  */
-const reset = () => {
-    engine.reset();
+const reset = bus => {
+
+    return () => {
+
+        engine.reset();
+        bus.publish("move-result", {
+            from: null,
+            to: null,
+            taken: [],
+            check: false,
+            gameOver: false,
+            next: engine.turn(),
+            fen: engine.fen(),
+            pgn: engine.pgn(),
+            status: true
+        });
+    };
 };
 
 /**
@@ -102,7 +152,7 @@ const init = hub => {
 
     const bus = hub.register("engine");
     bus.subscribe("hover-over", findPossibleMoves(bus));
-    bus.subscribe("new-game", reset);
+    bus.subscribe("new-game", reset(bus), 0);
     bus.subscribe("validate-move", details => move(details, bus));
 };
 

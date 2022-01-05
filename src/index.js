@@ -3,6 +3,7 @@ import engine from "./engine.js";
 import highlighting from "./highlighting.js";
 import hub from "@guzo/pubsubhub";
 import modal from "@guzo/modal";
+import players from "./players.js";
 
 /**
  * Set up the components and the pub/sub ecosystem, after everything has loaded
@@ -10,7 +11,7 @@ import modal from "@guzo/modal";
 window.addEventListener("load", () => {
 
     hub.log(true);
-    [ board, engine, highlighting, modal ].forEach(service => service.init(hub));
+    [ board, engine, highlighting, modal, players ].forEach(service => service.init(hub));
 
     const index = hub.register("index");
 });

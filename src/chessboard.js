@@ -132,6 +132,7 @@ const init = hub => {
 
     const board = initChessBoard();
     setupHandlers(board, hub);
+    board.hub.publish("new-game");
 };
 
 export default { init };

@@ -1,0 +1,31 @@
+div#players {
+    text-align: right;
+}
+
+div#players > div {
+    display: inline-block;
+    width: 240px;
+    text-align: left;
+}
+
+div#players > div > div {
+    line-height: 45px;
+    border: solid 1px white;
+    background: dodgerblue;
+    margin-bottom: 8px;
+}
+
+div#players > div > div.next {
+    background: darkorange;
+    color: black;
+}
+
+div#players > div > div img {
+    height: 45px;
+    vertical-align: top;
+    margin-right: 8px;
+}
+
+div#players > div > div span {
+    font-size: 24px;
+}

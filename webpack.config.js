@@ -8,7 +8,8 @@ module.exports = {
         "combined-css": [
             path.resolve(__dirname, "src/board.css"),
             path.resolve(__dirname, "src/modal.css"),
-            path.resolve(__dirname, "src/page.css")
+            path.resolve(__dirname, "src/page.css"),
+            path.resolve(__dirname, "src/players.css")
         ],
         "js/chess.js": path.resolve(__dirname, "src/index.js"),
     },

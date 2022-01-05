@@ -27,10 +27,6 @@ div#container {
     grid-column-gap: 16px;
 }
 
-div#players {
-    background: rgb(0, 0, 0, 0.1);
-}
-
 div#pgn {
     background: rgb(0, 0, 0, 0.1);
 }
