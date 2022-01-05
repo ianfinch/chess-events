@@ -39,6 +39,29 @@ const pieceMoved = board => {
 };
 
 /**
+ * Indicate when a square is hovered over
+ */
+const publishHoverMessage = board => {
+
+    return (square, piece) => {
+
+        if (piece) {
+            board.hub.publish("hover-over", { square, piece });
+        }
+    };
+};
+
+/**
+ * Indicate when a square is left
+ */
+const publishEndHoverMessage = board => {
+
+    return () => {
+        board.hub.publish("hover-end");
+    };
+};
+
+/**
  * Set up our chess board
  */
 const initChessBoard = () => {
@@ -60,8 +83,8 @@ const initChessBoard = () => {
         draggable: true,
         dropOffBoard: "snapback",
         onDrop: pieceMoved(board),
-//        onMouseoverSquare: highlighting.showMovesForPiece(board),
-//        onMouseoutSquare: highlighting.hideMovesForPiece(board),
+        onMouseoverSquare: publishHoverMessage(board),
+        onMouseoutSquare: publishEndHoverMessage(board),
         pieceTheme: "images/{piece}.svg",
         position: "start"
     });
