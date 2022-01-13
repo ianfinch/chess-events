@@ -10,7 +10,7 @@ import players from "./players.js";
  */
 window.addEventListener("load", () => {
 
-    hub.log(true);
+    hub.log(false);
     [ board, engine, highlighting, modal, players ].forEach(service => service.init(hub));
 
     const index = hub.register("index");

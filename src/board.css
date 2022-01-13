@@ -29,6 +29,11 @@ img.piece-417db {
     z-index: 100;
 }
 
+/* The piece that's being dragged needs to be above everything else */
+#container + img {
+    z-index: 200;
+}
+
 div#the-board .possible-move::before,
 div#the-board .check::before,
 div#the-board .possible-capture::before {

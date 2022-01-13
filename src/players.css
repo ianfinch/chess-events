@@ -8,24 +8,41 @@ div#players > div {
     text-align: left;
 }
 
-div#players > div > div {
+div#players > div > div.player {
     line-height: 45px;
     border: solid 1px white;
     background: dodgerblue;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
 }
 
-div#players > div > div.next {
+div#players > div > div.player.next {
     background: darkorange;
     color: black;
 }
 
-div#players > div > div img {
+div#players > div > div.player img {
     height: 45px;
     vertical-align: top;
     margin-right: 8px;
 }
 
-div#players > div > div span {
-    font-size: 24px;
+div#players > div > div.player span {
+    font-size: 20px;
+}
+
+div#taken-by-w, div#taken-by-b {
+    margin-bottom: 6px;
+}
+
+div#taken-by-w img, div#taken-by-b img {
+    height: 24px;
+    vertical-align: bottom;
+}
+
+div#taken-by-w span, div#taken-by-b span {
+    height: 12px;
+}
+
+div#taken-by-w span {
+    color: black;
 }

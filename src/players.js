@@ -5,29 +5,25 @@ const create = () => {
 
     const playersBlock = document.createElement("div");
 
-    const whiteBlock = document.createElement("div");
+    [ "w", "b" ].forEach((player, index) => {
 
-    const whiteIcon = document.createElement("img");
-    whiteIcon.setAttribute("src", "images/wK.svg");
-    whiteBlock.appendChild(whiteIcon);
+        const block = document.createElement("div");
+        block.classList.add("player");
 
-    const whiteName = document.createElement("span");
-    whiteName.textContent = "Player #1";
-    whiteBlock.appendChild(whiteName);
+        const icon = document.createElement("img");
+        icon.setAttribute("src", "images/" + player + "K.svg");
+        block.appendChild(icon);
 
-    playersBlock.append(whiteBlock);
+        const name = document.createElement("span");
+        name.textContent = "Player #" + (index + 1);
+        block.appendChild(name);
 
-    const blackBlock = document.createElement("div");
+        playersBlock.append(block);
 
-    const blackIcon = document.createElement("img");
-    blackIcon.setAttribute("src", "images/bK.svg");
-    blackBlock.appendChild(blackIcon);
-
-    const blackName = document.createElement("span");
-    blackName.textContent = "Player #2";
-    blackBlock.appendChild(blackName);
-
-    playersBlock.append(blackBlock);
+        const taken = document.createElement("div");
+        taken.setAttribute("id", "taken-by-" + player);
+        playersBlock.append(taken);
+    });
 
     document.getElementById("players").appendChild(playersBlock);
 };
@@ -46,14 +42,94 @@ const highlightNextPlayer = data => {
     const playerElems = document.getElementById("players").childNodes[0].childNodes;
     [...playerElems].forEach(elem => {
 
-        const img = [...elem.childNodes].filter(x => x.nodeName === "IMG")[0];
-        const src = [...img.attributes].filter(x => x.nodeName === "src")[0];
+        if (elem.classList.contains("player")) {
 
-        if (src.nodeValue === "images/" + data.next + "K.svg") {
-            elem.classList.add("next");
+            const img = [...elem.childNodes].filter(x => x.nodeName === "IMG")[0];
+            const src = [...img.attributes].filter(x => x.nodeName === "src")[0];
+
+            if (src.nodeValue === "images/" + data.next + "K.svg") {
+                elem.classList.add("next");
+            }
         }
-
     });
+
+    // Update the captured pieces
+    displayCapturedPieces(data.taken);
+};
+
+/**
+ * Display the captured pieces
+ */
+const displayCapturedPieces = captured => {
+
+    const pieces = {
+        B: { player: "white", alt: "white bishop", src: "images/wB.svg", value: -3    },
+        K: { player: "white", alt: "white king",   src: "images/wK.svg", value: -1000 },
+        N: { player: "white", alt: "white knight", src: "images/wN.svg", value: -3    },
+        P: { player: "white", alt: "white pawn",   src: "images/wP.svg", value: -1    },
+        Q: { player: "white", alt: "white queen",  src: "images/wQ.svg", value: -9    },
+        R: { player: "white", alt: "white rook",   src: "images/wR.svg", value: -5    },
+        b: { player: "black", alt: "black bishop", src: "images/bB.svg", value: 3     },
+        k: { player: "black", alt: "black king",   src: "images/bK.svg", value: 1000  },
+        n: { player: "black", alt: "black knight", src: "images/bN.svg", value: 3     },
+        p: { player: "black", alt: "black pawn",   src: "images/bP.svg", value: 1     },
+        q: { player: "black", alt: "black queen",  src: "images/bQ.svg", value: 9     },
+        r: { player: "black", alt: "black rook",   src: "images/bR.svg", value: 5     }
+    };
+
+    const createImage = piece => {
+
+        const img = document.createElement("img");
+        const alt = document.createAttribute("alt");
+        const src = document.createAttribute("src");
+
+        alt.value = piece.alt;
+        src.value = piece.src;
+
+        img.attributes.setNamedItem(alt);
+        img.attributes.setNamedItem(src);
+
+        return img;
+    };
+
+    const createBalance = value => {
+
+        const span = document.createElement("span");
+        span.textContent = "+" + value;
+        return span;
+    };
+
+    let takenWhite = document.getElementById("taken-by-b");
+    let takenBlack = document.getElementById("taken-by-w");
+
+    // Clear the existing display
+    takenWhite.replaceChildren();
+    takenBlack.replaceChildren();
+
+    // Add each captured piece
+    let balance = 0;
+    captured.forEach(taken => {
+
+        if (pieces[taken.piece].player === "white") {
+            for (let i = 0; i < taken.count; i++) {
+                takenWhite.appendChild(createImage(pieces[taken.piece]));
+                balance = balance + pieces[taken.piece].value;
+            }
+        } else {
+            for (let i = 0; i < taken.count; i++) {
+                takenBlack.appendChild(createImage(pieces[taken.piece]));
+                balance = balance + pieces[taken.piece].value;
+            }
+        }
+    });
+
+    // Indicate whether either player is up on captured pieces
+    if (balance < 0) {
+        takenWhite.appendChild(createBalance(-1 * balance));
+
+    } else if (balance > 0) {
+        takenBlack.appendChild(createBalance(balance));
+    }
 };
 
 /**
