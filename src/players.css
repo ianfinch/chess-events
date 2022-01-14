@@ -8,39 +8,50 @@ div#players > div {
     text-align: left;
 }
 
-div#players > div > div.player {
-    line-height: 45px;
+div#players div.player {
     border: solid 1px white;
     background: dodgerblue;
-    margin-bottom: 2px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: 30px 30px;
 }
 
-div#players > div > div.player.next {
+div#players div.player.next {
     background: darkorange;
     color: black;
 }
 
-div#players > div > div.player img {
-    height: 45px;
-    vertical-align: top;
+div#players div.player > img {
+    grid-column: 1 / 1;
+    grid-row: 1 / 2;
+    height: 60px;
     margin-right: 8px;
 }
 
-div#players > div > div.player span {
-    font-size: 20px;
+div#players div.player div.name {
+    grid-column: 2 / 2;
+    grid-row: 1 / 1;
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 div#taken-by-w, div#taken-by-b {
-    margin-bottom: 6px;
+    grid-column: 2 / 2;
+    grid-row: 2 / 2;
+    line-height: 30px;
+    font-size: 14px;
 }
 
 div#taken-by-w img, div#taken-by-b img {
     height: 24px;
-    vertical-align: bottom;
+    vertical-align: text-bottom;
+    margin-right: -6px;
 }
 
 div#taken-by-w span, div#taken-by-b span {
-    height: 12px;
+    margin-left: 6px;
 }
 
 div#taken-by-w span {

@@ -14,15 +14,16 @@ const create = () => {
         icon.setAttribute("src", "images/" + player + "K.svg");
         block.appendChild(icon);
 
-        const name = document.createElement("span");
+        const name = document.createElement("div");
         name.textContent = "Player #" + (index + 1);
+        name.classList.add("name");
         block.appendChild(name);
-
-        playersBlock.append(block);
 
         const taken = document.createElement("div");
         taken.setAttribute("id", "taken-by-" + player);
-        playersBlock.append(taken);
+        block.append(taken);
+
+        playersBlock.append(block);
     });
 
     document.getElementById("players").appendChild(playersBlock);
