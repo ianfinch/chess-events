@@ -1,0 +1,28 @@
+div#pgn > div {
+
+    width: 240px;
+    height: 596px;
+
+    color: white;
+    background: rgb(0, 0, 0, 0.1);
+
+    font-size: 12px;
+    margin: 0;
+    padding: 0.5em 1em;
+}
+
+div#pgn > div span:nth-child(1) {
+    display: inline-block;
+    width: 2em;
+}
+
+div#pgn > div span:nth-child(2) {
+    display: inline-block;
+    width: 3em;
+}
+
+div#pgn > div .comment {
+    color: #ccc;
+    font-style: italic;
+    padding-left: 2em;
+}

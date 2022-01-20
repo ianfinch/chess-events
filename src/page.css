@@ -26,7 +26,3 @@ div#container {
     grid-template-columns: 1fr 596px 1fr;
     grid-column-gap: 16px;
 }
-
-div#pgn {
-    background: rgb(0, 0, 0, 0.1);
-}

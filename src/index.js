@@ -3,6 +3,7 @@ import engine from "./engine.js";
 import highlighting from "./highlighting.js";
 import hub from "@guzo/pubsubhub";
 import modal from "@guzo/modal";
+import pgn from "./pgn.js";
 import players from "./players.js";
 
 /**
@@ -11,7 +12,7 @@ import players from "./players.js";
 window.addEventListener("load", () => {
 
     hub.log(false);
-    [ board, engine, highlighting, modal, players ].forEach(service => service.init(hub));
+    [ board, engine, highlighting, modal, pgn, players ].forEach(service => service.init(hub));
 
     const index = hub.register("index");
 });
